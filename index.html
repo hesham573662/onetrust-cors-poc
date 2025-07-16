@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CORS PoC - OneTrust</title>
+</head>
+<body>
+  <h2 style="color:darkgreen;">CORS Exploitation Proof of Concept</h2>
+  <p>This page attempts to load a resource from OneTrust domain cross-origin.</p>
+  <div id="result" style="white-space:pre; background-color:#f0f0f0; padding:1em;"></div>
+
+  <script>
+    fetch("https://pentest-app.onetrust.com/assets/images/favicon.svg", {
+      method: "GET",
+      mode: "cors",
+      credentials: "omit"
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP error! Status: " + response.status);
+      }
+      return response.text();
+    })
+    .then(data => {
+      document.getElementById("result").textContent = "✅ SUCCESS:\n\n" + data;
+    })
+    .catch(err => {
+      document.getElementById("result").textContent = "❌ ERROR:\n\n" + err;
+    });
+  </script>
+</body>
+</html>
